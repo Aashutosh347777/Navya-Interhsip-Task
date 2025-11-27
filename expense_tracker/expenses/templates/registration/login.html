@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %} Login {% endblock %}
+
+{% block extra_css %}
+
+<style>
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    gap: 20px;
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    gap: 15px;
+    padding: 20px;
+}
+
+</style>
+
+{% endblock %}
+
+{% block content %} 
+
+<div class="form-container">
+    <h1>Login</h1>
+
+    <form method="post">
+        {% csrf_token %}
+    
+        {{ form.as_p }} 
+        
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}" />
+        {% endif %}
+        
+        <button type="submit">Log In</button>
+    </form>
+    
+</div>
+
+{% endblock %}

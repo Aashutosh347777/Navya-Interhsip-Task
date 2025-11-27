@@ -1,0 +1,55 @@
+{% extends  'base.html' %}
+
+{% block extra_css %}
+<style>
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table, th, td {
+  border: 1px solid;
+  padding: 10px;
+}
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+{% if expenses %}
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>User</th>
+            <th>Actions</th> 
+        </tr>
+    </thead>
+    <tbody>
+    {# Loop through the expenses list passed from the view #}
+        {% for expense in expenses %}
+        <tr>
+            <td>{{ expense.title }}</td>
+            <td>Rs{{ expense.amount|floatformat:2 }}</td>
+            <td>{{ expense.get_category_display }}</td>
+            <td>{{ expense.date|date:"Y-m-d" }}</td>
+            <td>{{ expense.user.username }}</td>
+            
+            <td class="action-links">
+                <a href="{% url 'update_expenses' expense.pk %}">Update</a> |
+                <a href="{% url 'delete_expenses' expense.pk %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="no-expenses">You have not recorded any expenses yet. Start tracking your spending!</p>
+{% endif %}
+
+{% endblock %}

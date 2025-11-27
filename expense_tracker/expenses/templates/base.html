@@ -1,0 +1,58 @@
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %} Expense Tracker {% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'expenses/css/styles.css' %}">
+
+        {% block extra_css %}
+        {% endblock %}
+    </head>
+    <body>
+
+        <header>
+            <nav class = "navbar">
+                {% if user.is_authenticated %} 
+                    <div class="message">
+                        Welcome {{ user.username }}
+                    </div>
+
+                    <ul>
+                        <li><a href="{% url 'expenses_list' %}">Expense List</a></li>
+                        <li><a href="{% url 'create_expenses' %}">Create Expenses</a></li>
+                        
+                        <li>
+                            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit">
+                                    Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+
+                {% else %}
+                    <ul>
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                    </ul>
+                {% endif %}
+                
+            </nav>
+        </header>
+
+        <main class="main-container">
+            {% include 'messages.html' %}
+
+            {% block content %}
+
+            {% endblock %}
+        </main>
+
+        <footer>
+            <p>Django Expense Tracker</p>
+        </footer>
+
+    </body>
+    </html>

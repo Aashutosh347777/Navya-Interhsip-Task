@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %} Update Expenses {% endblock %}
+
+{% block extra_css %}
+
+<style>
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    gap: 20px;
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    gap: 15px;
+    padding: 20px;
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+<div class="form-container">
+    <h1>Update Expenses </h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="{{ expense.title }}" required>
+
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" step="0.01" value="{{ expense.amount|floatformat:2 }}" required>
+
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="">Select a category</option>
+            <option value="FOOD" {% if expense.category == 'FOOD' %}selected{% endif %}>Food</option>
+            <option value="TRANS" {% if expense.category == 'TRANS' %}selected{% endif %}>Transportation</option>
+            <option value="HOUS" {% if expense.category == 'HOUS' %}selected{% endif %}>Housing</option>
+            <option value="UTIL" {% if expense.category == 'UTIL' %}selected{% endif %}>Utilities</option>
+            <option value="OTHER" {% if expense.category == 'OTHER' %}selected{% endif %}>Other</option>
+        </select>
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" value="{{ expense.date|date:'Y-m-d' }}" required>
+
+        <button type="submit">Submit</button>
+    </form>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% block content %}
+<div class="form-container">
+    <h1>Confirm Deletion</h1>
+    
+    {% include 'messages.html' %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <p class="confirm-text">Are you sure you want to delete the expense: <strong>{{ expense.title }}</strong>?</p>
+        
+        <button type="submit" class="delete-button">Yes, Delete This Expense</button>
+        
+        <div class="cancel-link">
+            <a href="{% url 'expenses_list' %}">No, Take Me Back</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
